@@ -37,4 +37,29 @@ docModel.insertDoc = (userData, callback) => {
     }
 };
 
+//Actualizar documentos
+docModel.updateDoc = (userData , callback) => {
+    if(connection){
+        const SQL = `
+        UPDATE Documento SET
+        doc_date = ${connection.escape(userData.doc_date)},
+        doc_folio = ${connection.escape(userData.doc_folio)},
+        doc_name_client = ${connection.escape(userData.doc_name_client)},
+        doc_total = ${connection.escape(userData.doc_total)}
+        WHERE doc_id = ${connection.escape(userData.doc_id)}
+    `;
+        connection.query(SQL, (err, result)=>{
+            if(err){
+                throw err;
+            } else{
+                callback(null, {
+                    msg: 'actualizacion lista'
+                })
+            }
+        })
+    };
+}
+
+
+
 module.exports = docModel;
