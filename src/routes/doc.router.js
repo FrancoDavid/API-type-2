@@ -58,9 +58,25 @@ module.exports = function (app){
                 })
             }
         })
-    })
+    });
 
-
+    //Eliminar Documento 
+    app.delete('/doc/:id', (req, res)=>{
+        Document.deleteDoc(req.params.id, (err, data)=>{
+            console.log(data);
+            if(data && data.msg == 'eliminado' || data.msg == 'no existe' ){
+                res.json({
+                    success: true,
+                    data
+                })
+            } else{
+                console.log(data.msg);
+                res.status(500).json({
+                    msg: 'error'
+                })
+            }
+        })
+    });
 }
 
 

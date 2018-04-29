@@ -10,7 +10,7 @@ let docModel = {};//variable para almacenar e interactuar con la bd
 docModel.getDoc = (callback) =>{
     //Validacion de conexion
     if(connection){
-        connection.query('SELECT * FROM Documento',
+        connection.query('SELECT * FROM Documento ',
         (err, rows)=>{
             if(err){
                 throw err;
@@ -58,6 +58,37 @@ docModel.updateDoc = (userData , callback) => {
             }
         })
     };
+}
+//Eliminar Documento
+docModel.deleteDoc = (doc_id, callback) => {
+    if(connection){
+        let sql1 = `
+            SELECT * FROM Documento WHERE doc_id = ${connection.escape.doc_id}
+        `;
+        connection.query(sql1, (err, row) => {
+            console.log('rows:');
+            console.log(row);
+            if(row){
+                //eliminar
+                let sql = `
+                    DELETE FROM Documento WHERE doc_id = ${connection.escape.doc_id}        
+                `;
+                connection.query(sql, (err, result)=>{
+                    if(err){
+                        throw err;
+                    } else{
+                        callback(null, {
+                            msg:'eliminado'
+                        })
+                    }
+                })
+            } else{
+                callback(null, {
+                    msg:'no existe'
+                })
+            }
+        })
+    }
 }
 
 
