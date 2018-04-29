@@ -21,4 +21,20 @@ docModel.getDoc = (callback) =>{
     }
 };
 
+//Crear Documentos 
+docModel.insertDoc = (userData, callback) => {
+    if(connection){
+        connection.query('INSERT INTO Documento SET ?',userData,
+        (error, result)=>{
+            if(error){
+                throw error;
+            } else{
+                callback(null,{
+                    'InsertId' : result.insertId
+                })
+            }
+        })
+    }
+};
+
 module.exports = docModel;
